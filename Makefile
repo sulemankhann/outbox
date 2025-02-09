@@ -1,4 +1,4 @@
-.PHONY: up down build run-leader run-replica  test
+.PHONY: up down build run-leader run-replica run-subscriber test
 
 up:
 	docker-compose up -d
@@ -14,6 +14,9 @@ run-leader:
 
 run-replica:
 	go run ./cmd/example --port 8081
+
+run-subscriber:
+	go run ./cmd/subscriber
 
 test:
 	go test -v ./...

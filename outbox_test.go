@@ -1,6 +1,7 @@
 package outbox
 
 import (
+	"context"
 	"database/sql"
 	"errors"
 	"testing"
@@ -65,6 +66,7 @@ func TestOutbox_AddMessage(t *testing.T) {
 	for name, test := range tests {
 		tt := test
 		t.Run(name, func(t *testing.T) {
+			ctx := context.Background()
 			outbox := &Outbox{
 				store:        tt.store,
 				broker:       nil, // Not needed for this test
@@ -73,7 +75,7 @@ func TestOutbox_AddMessage(t *testing.T) {
 				isLeader:     false,
 			}
 
-			err := outbox.AddMessage(tt.tx, tt.subject, tt.data)
+			err := outbox.AddMessage(ctx, tt.tx, tt.subject, tt.data)
 			assert.Equal(t, tt.expErr, err)
 
 			tt.store.AssertExpectations(t)

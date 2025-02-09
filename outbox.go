@@ -30,11 +30,11 @@ func NewOutbox(
 }
 
 func (o *Outbox) AddMessage(
+	ctx context.Context,
 	tx *sql.Tx,
 	subject string,
 	data []byte,
 ) error {
-	ctx := context.Background()
 	msg := Message{Subject: subject, Data: data}
 
 	return o.store.AddMessageTx(ctx, msg, tx)
